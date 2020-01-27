@@ -4,9 +4,7 @@ import ResizableRect from 'react-resizable-rotatable-draggable';
 import {TiDeleteOutline} from 'react-icons/ti'
 import {connect} from "react-redux";
 import {IReduxState} from "../../store/reducers";
-import {ADD_TEXT, SELECT_TEXT} from "../../store/actions";
-import {DELETE_IMAGE} from "../../store/actions/images";
-import {DELETE_TEXT} from "../../store/actions/texts";
+import {SELECT_TEXT, SELECT_IMAGE, DELETE_IMAGE, DELETE_TEXT} from "../../store/actions";
 
 
 interface IProps {
@@ -17,7 +15,7 @@ interface IProps {
     DELETE_IMAGE: any,
     DELETE_TEXT: any,
     SELECT_TEXT: any,
-    // SELECT_IMAGE: any,
+    SELECT_IMAGE: any,
 }
 
 const Draggable: React.FC<IProps> = (props) => {
@@ -62,12 +60,14 @@ const Draggable: React.FC<IProps> = (props) => {
     };
 
     const {width, top, left, height, rotateAngle} = style;
-
-    const select = (isImage: boolean) => {
-        props.SELECT_TEXT(props.index)
-    };
+    
     return(
-        <div className={styles.draggable} onClick={() => props.SELECT_TEXT(props.index)}>
+        <div className={styles.draggable} onClick={() => {
+            props.isImage ?
+                props.SELECT_IMAGE(props.index)
+                :
+                props.SELECT_TEXT(props.index)
+        }}>
             <div style={
                 {
                     ...style,
@@ -134,7 +134,7 @@ export default connect((state: IReduxState) => {
     return {
         DELETE_IMAGE: (index: number) => dispatch(DELETE_IMAGE(index)),
         DELETE_TEXT: (index: number) => dispatch(DELETE_TEXT(index)),
-        // SELECT_IMAGE: (index: number) => dispatch(SELECT_IMAGE(index)),
+        SELECT_IMAGE: (index: number) => dispatch(SELECT_IMAGE(index)),
         SELECT_TEXT: (index: number) => dispatch(SELECT_TEXT(index)),
     }
 })(Draggable)

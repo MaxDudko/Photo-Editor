@@ -1,7 +1,7 @@
-import { UPLOAD_IMAGE} from "./images";
-import {ADD_TEXT, SELECT_TEXT} from "./texts";
+import { UPLOAD_IMAGE, SELECT_IMAGE, DELETE_IMAGE} from "./images";
+import {ADD_TEXT, SELECT_TEXT, DELETE_TEXT} from "./texts";
 
 export {
-     UPLOAD_IMAGE,
-    ADD_TEXT, SELECT_TEXT,
+    UPLOAD_IMAGE, SELECT_IMAGE, DELETE_IMAGE,
+    ADD_TEXT, SELECT_TEXT, DELETE_TEXT,
 }

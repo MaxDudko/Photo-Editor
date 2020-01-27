@@ -8,14 +8,14 @@ export const UPLOAD_IMAGE = (file: string, imagePreviewUrl: string) => {
     }
 };
 
-// export const SELECT_IMAGE = (index: number) => {
-//     return {
-//         type: "SELECT_IMAGE",
-//         payload: {
-//             index: index
-//         }
-//     }
-// };
+export const SELECT_IMAGE = (index: number) => {
+    return {
+        type: "SELECT_IMAGE",
+        payload: {
+            index: index
+        }
+    }
+};
 
 export const DELETE_IMAGE = (index: number) => {
     return {

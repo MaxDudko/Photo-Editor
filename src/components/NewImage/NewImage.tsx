@@ -41,8 +41,8 @@ const NewImage: React.FC<IProps> = (props) => {
                                index={i}
                                isImage={false}
                                content={
-                                   <svg>
-                                       <text x="50%" y="50%" textAnchor="middle">{e}</text>
+                                   <svg >
+                                       <text x="50%" y="50%" textAnchor="middle" style={{...props.stylesTexts[i]}}>{e}</text>
                                    </svg>
                                }
                     />

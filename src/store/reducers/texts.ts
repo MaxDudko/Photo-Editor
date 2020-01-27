@@ -18,7 +18,11 @@ export const texts = (state:ITextsState = initialState, action: any) => {
                 texts: [
                     ...state.texts,
                     action.payload.text
-                ]
+                ],
+                stylesTexts: [
+                    ...state.stylesTexts,
+                    {}
+                ],
             };
         case "SELECT_TEXT":
             return {
@@ -26,12 +30,12 @@ export const texts = (state:ITextsState = initialState, action: any) => {
               selectedText: action.payload.index
             };
         case "EDIT_TEXT":
+            let css = Object.assign(state.stylesTexts[action.payload.index], action.payload.styles);
             return {
                 ...state,
-                stylesTexts: [
-                    ...state.stylesTexts,
-                    state.stylesTexts[action.payload.index] = action.payload.styles
-                ]
+                stylesTexts: state.stylesTexts.map((e: any, i: number) => {
+                    if(i === action.payload.index) return Object.assign(e, action.payload.styles)
+                })
             };
         case 'DELETE_TEXT':
             return {

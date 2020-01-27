@@ -26,11 +26,11 @@ export const images = (state:IImagesState = initialState, action: any) => {
                     action.payload.imagePreviewUrl
                 ]
             };
-        // case 'SELECT_IMAGE':
-        //     return  {
-        //         ...state,
-        //         selectedImage: action.payload.index
-        //     };
+        case 'SELECT_IMAGE':
+            return  {
+                ...state,
+                selectedImage: action.payload.index
+            };
         case 'DELETE_IMAGE':
             return {
               ...state,
