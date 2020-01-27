@@ -1,0 +1,18 @@
+.edit {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .right {
+    position: absolute;
+    right: 0;
+    top: 50px;
+  }
+  label {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    p {
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.app {
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #24292e;
+    height: 50px;
+    color: white;
+    padding: 0 10px;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: lighten(#24292e, 10%);
+    height: calc(100vh - 50px);
+  }
+}
