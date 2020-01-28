@@ -1,4 +1,9 @@
 .addText {
   display: flex;
   flex-direction: column;
+  textarea, input, button {
+    background: transparent;
+    color: white;
+    padding: 5px;
+  }
 }

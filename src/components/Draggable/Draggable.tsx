@@ -12,6 +12,12 @@ interface IProps {
     index: number,
     isImage: boolean,
 
+    selectedText: number,
+    selectedImage: number,
+
+    stylesTexts: any,
+    stylesImages: any,
+
     DELETE_IMAGE: any,
     DELETE_TEXT: any,
     SELECT_TEXT: any,
@@ -20,7 +26,7 @@ interface IProps {
 
 const Draggable: React.FC<IProps> = (props) => {
     let [style, change] = React.useState({
-        width: 300,
+        width: 400,
         height: 100,
         top: 100,
         left: 100,
@@ -60,6 +66,30 @@ const Draggable: React.FC<IProps> = (props) => {
     };
 
     const {width, top, left, height, rotateAngle} = style;
+
+    const rect = (
+        <ResizableRect
+            left={left}
+            top={top}
+            width={width}
+            height={height}
+            rotateAngle={rotateAngle}
+            // aspectRatio={false}
+            // minWidth={10}
+            // minHeight={10}
+            zoomable='n, w, s, e, nw, ne, se, sw'
+            // rotatable={true}
+            // onRotateStart={this.handleRotateStart}
+            onRotate={handleRotate}
+            // onRotateEnd={this.handleRotateEnd}
+            // onResizeStart={this.handleResizeStart}
+            onResize={handleResize}
+            // onResizeEnd={this.handleUp}
+            // onDragStart={this.handleDragStart}
+            onDrag={handleDrag}
+            // onDragEnd={this.handleDragEnd}
+        />
+    );
     
     return(
         <div className={styles.draggable} onClick={() => {
@@ -67,7 +97,9 @@ const Draggable: React.FC<IProps> = (props) => {
                 props.SELECT_IMAGE(props.index)
                 :
                 props.SELECT_TEXT(props.index)
-        }}>
+        }}
+             style={{...style}}
+        >
             <div style={
                 {
                     ...style,
@@ -79,30 +111,24 @@ const Draggable: React.FC<IProps> = (props) => {
                 }
             }>
                 {
-                    props.content
+                    props.isImage ?
+                        <img src={props.content} alt="#"/>
+                        :
+                        <div style={{fontSize: "medium", ...props.stylesTexts[props.index]}}>{props.content}</div>
                 }
             </div>
-            <ResizableRect
-                left={left}
-                top={top}
-                width={width}
-                height={height}
-                rotateAngle={rotateAngle}
-                // aspectRatio={false}
-                // minWidth={10}
-                // minHeight={10}
-                zoomable='n, w, s, e, nw, ne, se, sw'
-                // rotatable={true}
-                // onRotateStart={this.handleRotateStart}
-                onRotate={handleRotate}
-                // onRotateEnd={this.handleRotateEnd}
-                // onResizeStart={this.handleResizeStart}
-                onResize={handleResize}
-                // onResizeEnd={this.handleUp}
-                // onDragStart={this.handleDragStart}
-                onDrag={handleDrag}
-                // onDragEnd={this.handleDragEnd}
-            />
+            {
+                props.isImage ?
+                    props.selectedImage === props.index ?
+                        rect
+                        :
+                        null
+                    :
+                    props.selectedText === props.index ?
+                        rect
+                        :
+                        null
+            }
             <TiDeleteOutline style={{
                 ...style,
                 left: style.left + style.width + 4,
@@ -128,7 +154,11 @@ const Draggable: React.FC<IProps> = (props) => {
 
 export default connect((state: IReduxState) => {
     return {
+        selectedText: state.texts.selectedText,
+        selectedImage: state.images.selectedImage,
 
+        stylesTexts: state.texts.stylesTexts,
+        stylesImages: state.images.stylesImages,
     };
 }, (dispatch) => {
     return {

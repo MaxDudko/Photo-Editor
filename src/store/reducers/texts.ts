@@ -30,7 +30,6 @@ export const texts = (state:ITextsState = initialState, action: any) => {
               selectedText: action.payload.index
             };
         case "EDIT_TEXT":
-            let css = Object.assign(state.stylesTexts[action.payload.index], action.payload.styles);
             return {
                 ...state,
                 stylesTexts: state.stylesTexts.map((e: any, i: number) => {

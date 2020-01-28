@@ -11,9 +11,10 @@
   .wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     background: lighten(#24292e, 10%);
     height: calc(100vh - 50px);
+    margin-left: 50px;
   }
 }

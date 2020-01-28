@@ -30,7 +30,8 @@ const NewImage: React.FC<IProps> = (props) => {
                                index={i}
                                isImage={true}
                                content={
-                                   <img src={e} alt="img" />
+                                   // <img src={e} alt="img" />
+                                   e
                                }
                     />
                 ))
@@ -41,9 +42,11 @@ const NewImage: React.FC<IProps> = (props) => {
                                index={i}
                                isImage={false}
                                content={
-                                   <svg >
-                                       <text x="50%" y="50%" textAnchor="middle" style={{...props.stylesTexts[i]}}>{e}</text>
-                                   </svg>
+                                   // <svg xmlns="http://www.w3.org/2000/svg">
+                                   //     <text x="50%" y="50%" lengthAdjust="spacing" textAnchor="middle" style={{...props.stylesTexts[i]}}>{e}</text>
+                                   // </svg>
+                                   // <span>{e}</span>
+                                   e
                                }
                     />
                 ))

@@ -1,18 +1,63 @@
 .edit {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  .right {
-    position: absolute;
-    right: 0;
+  width: 100%;
+  .sidebar {
+    background: #24292e;
+    position: fixed;
+    left: 0;
     top: 50px;
-  }
-  label {
-    color: white;
     display: flex;
     flex-direction: column;
-    p {
-      margin: 0;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70px;
+    height: calc(100vh - 50px);
+    .item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 40px;
+      color: white;
+      height: 70px;
+      &:hover {
+        background: darken(#24292e, 10%);
+        cursor: pointer;
+        color: lime;
+      }
+    }
+  }
+  .options {
+    position: fixed;
+    right: 0;
+    top: 50px;
+    width: 250px;
+    background: #24292e;
+    height: calc(100vh - 50px);
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    .list {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      img {
+        width: 100%;
+        height: 70px;
+        margin-top: 10px;
+      }
+    }
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    textarea, input, button, select {
+      padding: 5px;
     }
   }
 }

@@ -45,6 +45,7 @@ const Upload: React.FC<IProps> = (props) => {
 
 export default connect((state: IReduxState) => {
     return {
+        // images: state.images.images
     }
 }, (dispatch) => {
     return {
