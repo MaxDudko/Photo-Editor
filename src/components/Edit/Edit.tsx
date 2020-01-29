@@ -5,11 +5,24 @@ import {IReduxState} from "../../store/reducers";
 import {ADD_TEXT, EDIT_TEXT, EDIT_COMMON_STYLES} from "../../store/actions";
 import AddText from "../AddText/AddText";
 import Upload from "../Upload/Upload";
-import {FaRegImages, IoMdOptions, MdTextFields} from "react-icons/all";
+import {
+    AiOutlineAlignCenter,
+    AiOutlineAlignLeft, AiOutlineAlignRight,
+    AiOutlineBold,
+    AiOutlineItalic, AiOutlineStrikethrough,
+    AiOutlineUnderline,
+    FaRegImages,
+    IoMdOptions,
+    MdTextFields
+} from "react-icons/all";
 
 interface IProps {
     images: any,
     selectedText: number,
+    selectedImage: number,
+
+    stylesImages: any,
+    stylesTexts: any
 
     ADD_TEXT: any,
     EDIT_TEXT: any,
@@ -19,6 +32,21 @@ interface IProps {
 
 const Edit: React.FC<IProps> = (props) => {
     let [selected, select] = React.useState("");
+
+    const onClickIconHandler = (property: string, value_1: string, value_2: string) => {
+        props.stylesTexts[props.selectedText][property] === value_2 ?
+            props.EDIT_TEXT(props.selectedText, {[property]: value_1})
+            :
+            props.EDIT_TEXT(props.selectedText, {[property]: value_2})
+    };
+
+    const classSelect = (property: string, value: string) => {
+        if(props.stylesTexts[props.selectedText][property] === value) {
+            return " " + styles.selected
+        } else {
+            return ""
+        }
+    };
 
     const optionsSelected = () => {
         if (selected === "common") {
@@ -57,52 +85,81 @@ const Edit: React.FC<IProps> = (props) => {
                 <div className={styles.options}>
                     <p>Edit Text: </p>
                     <AddText />
-                    <label>
-                        <p>color: </p>
-                        <input type="color" onChange={(e) => props.EDIT_TEXT(props.selectedText, {color: e.target.value})}/>
-                    </label>
-                    <label>
-                        <p>font-family: </p>
-                        <select onChange={(e) => props.EDIT_TEXT(props.selectedText, {fontFamily: e.target.value})}>
-                            <option value="serif">serif</option>
-                            <option value="sans-serif">sans-serif</option>
-                            <option value="monospace">monospace</option>
-                            <option value="cursive">cursive</option>
-                            <option value="fantasy">fantasy</option>
-                            <option value="system-ui">system-ui</option>
-                        </select>
-                    </label>
-                    <label>
-                        <p>text-decoration: </p>
-                        <select onChange={(e) => props.EDIT_TEXT(props.selectedText, {textDecoration: e.target.value})}>
-                            <option value="none">none</option>
-                            <option value="underline">underline</option>
-                            <option value="overline">overline</option>
-                            <option value="line-through">line-through</option>
-                        </select>
-                    </label>
-                    <label>
-                        <p>font-style: </p>
-                        <select onChange={(e) => props.EDIT_TEXT(props.selectedText, {fontStyle: e.target.value})}>
-                            <option value="normal">normal</option>
-                            <option value="italic">italic</option>
-                            <option value="oblique">oblique</option>
-                        </select>
-                    </label>
-                    <label>
-                        <p>font-weight: </p>
-                        <input type="number" min={100} max={900} step={100}
-                               onChange={(e) => props.EDIT_TEXT(props.selectedText, {fontWeight: e.target.value})}
-                        />
-                    </label>
-                    <label>
-                        <p>text-align: </p>
-                        <select onChange={(e) => props.EDIT_TEXT(props.selectedText, {textAlign: e.target.value})}>
-                            <option value="center">center</option>
-                            <option value="left">left</option>
-                            <option value="right">right</option>
-                        </select>
-                    </label>
+                    {
+                        props.stylesTexts[props.selectedText] ?
+                            <div className={styles.topList}>
+                                <input type="color" onChange={(e) => props.EDIT_TEXT(props.selectedText, {color: e.target.value})}/>
+                                <div className={styles.iconContainer}>
+                                    <span className={styles.icon + classSelect("fontStyle", "italic")}
+                                          onClick={(e) => onClickIconHandler(
+                                              "fontStyle",
+                                              "normal",
+                                              "italic"
+                                          )}
+                                    >
+                                        <AiOutlineItalic />
+                                    </span>
+                                    <span className={styles.icon + classSelect("fontWeight", "bold")}
+                                          onClick={(e) => onClickIconHandler(
+                                              "fontWeight",
+                                              "normal",
+                                              "bold"
+                                          )}
+                                    >
+                                        <AiOutlineBold />
+                                    </span>
+                                    <span className={styles.icon + classSelect("textDecoration", "underline")}
+                                          onClick={(e) => onClickIconHandler(
+                                              "textDecoration",
+                                              "none",
+                                              "underline"
+                                          )}
+                                    >
+                                        <AiOutlineUnderline />
+                                    </span>
+                                    <span className={styles.icon + classSelect("textDecoration", "line-through")}
+                                          onClick={(e) => onClickIconHandler(
+                                              "textDecoration",
+                                              "none",
+                                              "line-through"
+                                          )}
+                                    >
+                                        <AiOutlineStrikethrough />
+                                    </span>
+                                </div>
+                                <div className={styles.iconContainer}>
+                                    <span className={styles.icon + classSelect("textAlign", "left")}
+                                          onClick={(e) => onClickIconHandler(
+                                              "textAlign",
+                                              "none",
+                                              "left"
+                                          )}
+                                    >
+                                        <AiOutlineAlignLeft />
+                                    </span>
+                                    <span className={styles.icon + classSelect("textAlign", "center")}
+                                          onClick={(e) => onClickIconHandler(
+                                              "textAlign",
+                                              "",
+                                              "center"
+                                          )}
+                                    >
+                                        <AiOutlineAlignCenter />
+                                    </span>
+                                    <span className={styles.icon + classSelect("textAlign", "right")}
+                                          onClick={(e) => onClickIconHandler(
+                                              "textAlign",
+                                              "",
+                                              "right"
+                                          )}
+                                    >
+                                        <AiOutlineAlignRight />
+                                    </span>
+                                </div>
+                            </div>
+                            :
+                            null
+                    }
                 </div>
             )
         } else {
@@ -139,7 +196,10 @@ const Edit: React.FC<IProps> = (props) => {
 export default connect((state: IReduxState) => {
     return {
         images: state.styles.images,
-        selectedText: state.styles.selectedText
+        selectedText: state.styles.selectedText,
+        selectedImage: state.styles.selectedImage,
+        stylesImages: state.styles.stylesImages,
+        stylesTexts: state.styles.stylesTexts
     };
 }, (dispatch) => {
     return {

@@ -67,7 +67,9 @@ export const styles = (state:IStylesState = initialState, action: any) => {
                 ],
                 stylesTexts: [
                     ...state.stylesTexts,
-                    {}
+                    {
+                        fontWeight: 400
+                    }
                 ],
             };
         case "SELECT_TEXT":
