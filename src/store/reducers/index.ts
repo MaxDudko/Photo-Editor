@@ -1,17 +1,11 @@
 import {combineReducers} from 'redux';
 
-import {common, ICommonState} from "./common";
-import {images, IImagesState} from "./images";
-import {texts, ITextsState} from "./texts";
+import {styles, IStylesState} from "./styles";
 
 export const reducers = combineReducers({
-    common,
-    images,
-    texts,
+    styles,
 });
 
 export interface IReduxState{
-    common: ICommonState,
-    images: IImagesState,
-    texts: ITextsState,
+    styles: IStylesState,
 }

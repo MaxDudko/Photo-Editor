@@ -18,6 +18,8 @@ interface IProps {
     stylesTexts: any,
     stylesImages: any,
 
+    stylesCommon: any,
+
     DELETE_IMAGE: any,
     DELETE_TEXT: any,
     SELECT_TEXT: any,
@@ -65,6 +67,21 @@ const Draggable: React.FC<IProps> = (props) => {
         })
     };
 
+    const handleDragEnd = () => {
+        if(props.stylesCommon.width >= style.left) {
+            change({
+                ...style,
+                left: props.stylesCommon.width - style.width
+            })
+        }
+        if(props.stylesCommon.height >= style.top) {
+            change({
+                ...style,
+                top: props.stylesCommon.height - style.height
+            })
+        }
+    };
+
     const {width, top, left, height, rotateAngle} = style;
 
     const rect = (
@@ -87,7 +104,7 @@ const Draggable: React.FC<IProps> = (props) => {
             // onResizeEnd={this.handleUp}
             // onDragStart={this.handleDragStart}
             onDrag={handleDrag}
-            // onDragEnd={this.handleDragEnd}
+            onDragEnd={handleDragEnd}
         />
     );
     
@@ -154,11 +171,13 @@ const Draggable: React.FC<IProps> = (props) => {
 
 export default connect((state: IReduxState) => {
     return {
-        selectedText: state.texts.selectedText,
-        selectedImage: state.images.selectedImage,
+        selectedText: state.styles.selectedText,
+        selectedImage: state.styles.selectedImage,
 
-        stylesTexts: state.texts.stylesTexts,
-        stylesImages: state.images.stylesImages,
+        stylesTexts: state.styles.stylesTexts,
+        stylesImages: state.styles.stylesImages,
+
+        stylesCommon: state.styles.stylesCommon,
     };
 }, (dispatch) => {
     return {

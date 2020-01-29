@@ -29,10 +29,10 @@
   }
   .options {
     position: fixed;
-    right: 0;
+    left: 70px;
     top: 50px;
     width: 250px;
-    background: #24292e;
+    background: lighten(#24292e, 10%);
     height: calc(100vh - 50px);
     color: white;
     padding: 10px;

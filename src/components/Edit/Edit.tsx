@@ -2,12 +2,10 @@ import React from "react";
 import styles from "./Edit.module.scss";
 import {connect} from "react-redux";
 import {IReduxState} from "../../store/reducers";
-import {ADD_TEXT} from "../../store/actions";
+import {ADD_TEXT, EDIT_TEXT, EDIT_COMMON_STYLES} from "../../store/actions";
 import AddText from "../AddText/AddText";
 import Upload from "../Upload/Upload";
-import {EDIT_TEXT} from "../../store/actions/texts";
 import {FaRegImages, IoMdOptions, MdTextFields} from "react-icons/all";
-import {EDIT_ALL} from "../../store/actions/common";
 
 interface IProps {
     images: any,
@@ -15,11 +13,12 @@ interface IProps {
 
     ADD_TEXT: any,
     EDIT_TEXT: any,
-    EDIT_ALL: any,
+    EDIT_COMMON_STYLES: any,
+
 }
 
 const Edit: React.FC<IProps> = (props) => {
-    let [selected, select] = React.useState("common");
+    let [selected, select] = React.useState("");
 
     const optionsSelected = () => {
         if (selected === "common") {
@@ -27,15 +26,15 @@ const Edit: React.FC<IProps> = (props) => {
                <div className={styles.options}>
                    <label>
                        <p>background-color: </p>
-                       <input type="color" onChange={(e) => props.EDIT_ALL({backgroundColor: e.target.value})}/>
+                       <input type="color" onChange={(e) => props.EDIT_COMMON_STYLES({backgroundColor: e.target.value})}/>
                    </label>
                    <label>
                        <p>width: </p>
-                       <input type="number" onChange={(e) => props.EDIT_ALL({width: e.target.value + "px"})} />
+                       <input type="number" onChange={(e) => props.EDIT_COMMON_STYLES({width: e.target.value + "px"})} />
                    </label>
                    <label>
                        <p>height: </p>
-                       <input type="number" onChange={(e) => props.EDIT_ALL({height: e.target.value + "px"})} />
+                       <input type="number" onChange={(e) => props.EDIT_COMMON_STYLES({height: e.target.value + "px"})} />
                    </label>
                </div>
             )
@@ -106,20 +105,28 @@ const Edit: React.FC<IProps> = (props) => {
                     </label>
                 </div>
             )
+        } else {
+            return null;
         }
     };
 
     return(
         <div className={styles.edit}>
             <div className={styles.sidebar}>
-                <div className={styles.item}>
-                    <IoMdOptions onClick={() => select("common")} />
+                <div className={styles.item}
+                     onClick={() => selected === "common" ? select("") : select("common")}
+                >
+                    <IoMdOptions />
                 </div>
-                <div className={styles.item}>
-                    <FaRegImages onClick={() => select("image")} />
+                <div className={styles.item}
+                     onClick={() => selected === "image" ? select("") : select("image")}
+                >
+                    <FaRegImages />
                 </div>
-                <div className={styles.item}>
-                    <MdTextFields onClick={() => select("text")} />
+                <div className={styles.item}
+                     onClick={() => selected === "text" ? select("") : select("text")}
+                >
+                    <MdTextFields />
                 </div>
             </div>
             {
@@ -131,13 +138,13 @@ const Edit: React.FC<IProps> = (props) => {
 
 export default connect((state: IReduxState) => {
     return {
-        images: state.images.images,
-        selectedText: state.texts.selectedText
+        images: state.styles.images,
+        selectedText: state.styles.selectedText
     };
 }, (dispatch) => {
     return {
         ADD_TEXT: (text: string) => dispatch(ADD_TEXT(text)),
         EDIT_TEXT: (index: number, styles: any) => dispatch(EDIT_TEXT(index, styles)),
-        EDIT_ALL: (styles: any) => dispatch(EDIT_ALL(styles))
+        EDIT_COMMON_STYLES: (styles: any) => dispatch(EDIT_COMMON_STYLES(styles)),
     }
 })(Edit)

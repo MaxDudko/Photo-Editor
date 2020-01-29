@@ -12,9 +12,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: flex-end;
     background: lighten(#24292e, 10%);
     height: calc(100vh - 50px);
-    margin-left: 50px;
   }
 }
