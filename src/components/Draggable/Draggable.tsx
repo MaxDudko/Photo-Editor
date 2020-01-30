@@ -30,8 +30,8 @@ const Draggable: React.FC<IProps> = (props) => {
     let [style, change] = React.useState({
         width: 400,
         height: 100,
-        top: 100,
-        left: 100,
+        top: Math.random() * (300 - 100) + 100,
+        left: Math.random() * (600 - 100) + 100,
         rotateAngle: 0
     });
 
@@ -62,7 +62,7 @@ const Draggable: React.FC<IProps> = (props) => {
     const handleDrag = (deltaX: any, deltaY: any) => {
         change({
             ...style,
-            left: style.left + deltaX,
+            left: style.left + deltaX >= parseInt(props.stylesCommon.width) ? (style.left + deltaX) - style.width : style.left + deltaX,
             top: style.top + deltaY
         })
     };
@@ -109,31 +109,56 @@ const Draggable: React.FC<IProps> = (props) => {
     );
     
     return(
-        <div className={styles.draggable} onClick={() => {
-            props.isImage ?
-                props.SELECT_IMAGE(props.index)
-                :
-                props.SELECT_TEXT(props.index)
-        }}
-             style={{...style}}
+        <div className={styles.draggable}
+             onClick={() => props.isImage ? props.SELECT_IMAGE(props.index) : props.SELECT_TEXT(props.index)}
+             // style={{...style, position: "absolute"}}
         >
-            <div style={
-                {
-                    ...style,
-                    transform: `rotate(${style.rotateAngle}deg)`,
-                    position: "absolute",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center"
-                }
-            }>
+            {/*<div style={*/}
+            {/*    {*/}
+            {/*        ...style,*/}
+            {/*        transform: `rotate(${style.rotateAngle}deg)`,*/}
+            {/*        position: "absolute",*/}
+            {/*        display: "flex",*/}
+            {/*        justifyContent: "center",*/}
+            {/*        alignItems: "center"*/}
+            {/*    }*/}
+            {/*}>*/}
                 {
                     props.isImage ?
-                        <img src={props.content} alt="#"/>
+                        <img src={props.content} alt="#"
+                             style={
+                                 {
+                                     width: style.width,
+                                     height: style.height,
+                                     position: "absolute",
+                                     left: style.left,
+                                     top: style.top,
+                                     transform: `rotate(${style.rotateAngle}deg)`
+                                 }
+                             }
+                        />
                         :
-                        <div style={{fontSize: "medium", ...props.stylesTexts[props.index]}}>{props.content}</div>
+                        <div style={
+                            {
+                                width: style.width,
+                                height: style.height,
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                ...props.stylesTexts[props.index],
+                                position: "relative",
+                                left: style.left,
+                                top: style.top,
+                                transform: `rotate(${style.rotateAngle}deg)`,
+                                fontSize: style.width/10
+                            //    (style.width/500*100 + style.height/500*100)/2
+                            }
+                        }
+                        >
+                            {props.content}
+                        </div>
                 }
-            </div>
+            {/*</div>*/}
             {
                 props.isImage ?
                     props.selectedImage === props.index ?
@@ -146,25 +171,6 @@ const Draggable: React.FC<IProps> = (props) => {
                         :
                         null
             }
-            <TiDeleteOutline style={{
-                ...style,
-                left: style.left + style.width + 4,
-                top: style.top - 20,
-                transform: `rotate(${style.rotateAngle}deg)`,
-                position: "absolute",
-                width: "25px",
-                height: "25px",
-                color: "#eb5648",
-                cursor: "pointer"
-            }}
-                             className="del"
-                             onClick={() => {
-                                 props.isImage ?
-                                     props.DELETE_IMAGE(props.index)
-                                     :
-                                     props.DELETE_TEXT(props.index)
-                             }}
-            />
         </div>
     )
 };

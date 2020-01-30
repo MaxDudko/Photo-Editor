@@ -62,12 +62,13 @@ export const SELECT_TEXT = (index: number) => {
     }
 };
 
-export const EDIT_TEXT = (index: number, styles: any) => {
+export const EDIT_TEXT = (index: number, property: string, value: any) => {
     return {
         type: "EDIT_TEXT",
         payload: {
             index: index,
-            styles: styles,
+            property: property,
+            value: value,
         }
     }
 };

@@ -2,6 +2,7 @@
   width: 100%;
   .sidebar {
     background: #24292e;
+    color: white;
     position: fixed;
     left: 0;
     top: 50px;
@@ -18,12 +19,10 @@
       width: 100%;
       border-radius: 5px;
       font-size: 40px;
-      color: white;
       height: 70px;
       &:hover {
-        background: darken(#24292e, 10%);
+        background: lighten(#24292e, 10%);
         cursor: pointer;
-        color: lime;
       }
     }
   }
@@ -54,10 +53,47 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
+      overflow-y: auto;
       img {
+        //width: 100%;
+        //width: calc(100% - 22px);
+        width: 100%;
+        //height: 70px;
+      }
+      span {
         width: 100%;
         height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .wrapper {
+        //width: 100%;
+        min-height: 50px;
         margin-top: 10px;
+        //border: 1px dashed;
+        display: flex;
+        //justify-content: center;
+        //align-items: center;
+        //flex-wrap: wrap;
+        //position: relative;
+        .delete {
+          width: 20px;
+          min-height: 100%;
+          display: flex;
+          align-items: flex-start;
+          position: relative;
+          right: 20px;
+          color: red;
+          background: rgba(36, 41, 46, .5);
+          &:hover {
+            background: rgba(255, 0, 0, .5);
+            color: #24292e;
+          }
+        }
+      }
+      .selectedItem {
+        border: 1px solid lime !important;
       }
     }
     label {
@@ -85,9 +121,9 @@
         background: lighten(#24292e, 10%);
       }
     }
-    .selected {
-      color: lime;
-    }
+  }
+  .selected {
+    color: lime;
   }
 }
 

@@ -80,9 +80,14 @@ export const styles = (state:IStylesState = initialState, action: any) => {
         case "EDIT_TEXT":
             return {
                 ...state,
-                stylesTexts: state.stylesTexts.map((e: any, i: number) => {
-                    if(i === action.payload.index) return Object.assign(e, action.payload.styles)
-                })
+                stylesTexts: state.stylesTexts.map((text: any, i: number) => i === action.payload.index ?
+                    {
+                        ...text,
+                        [action.payload.property]: action.payload.value
+                    }
+                    :
+                    text
+                )
             };
         case 'DELETE_TEXT':
             return {
