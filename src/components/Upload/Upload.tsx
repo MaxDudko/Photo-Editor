@@ -6,12 +6,7 @@ import {IReduxState} from "../../store/reducers";
 import {UPLOAD_IMAGE} from "../../store/actions";
 
 interface IProps {
-    // files: any,
-    // images: any,
-    // selectedImage: number,
-
     UPLOAD_IMAGE: any,
-    // SELECT_IMAGE: any,
 }
 const Upload: React.FC<IProps> = (props) => {
 
@@ -45,7 +40,6 @@ const Upload: React.FC<IProps> = (props) => {
 
 export default connect((state: IReduxState) => {
     return {
-        // images: state.images.images
     }
 }, (dispatch) => {
     return {

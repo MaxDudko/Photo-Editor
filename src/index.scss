@@ -14,6 +14,10 @@ code {
 
 button {
   cursor: pointer;
+  border: 1px solid;
+  background: transparent;
+  color: white;
+  width: 100%;
 }
 
 input[type="color"] {
@@ -23,5 +27,9 @@ input[type="color"] {
   background: transparent;
   border: none;
   -webkit-appearance: none;
+  cursor: pointer;
+}
+input[type="range"] {
+  width: 90%;
   cursor: pointer;
 }

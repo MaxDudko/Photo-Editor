@@ -62,9 +62,9 @@ export const SELECT_TEXT = (index: number) => {
     }
 };
 
-export const EDIT_TEXT = (index: number, property: string, value: any) => {
+export const EDIT_TEXT_STYLES = (index: number, property: string, value: any) => {
     return {
-        type: "EDIT_TEXT",
+        type: "EDIT_TEXT_STYLES",
         payload: {
             index: index,
             property: property,

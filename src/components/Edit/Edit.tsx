@@ -2,7 +2,14 @@ import React from "react";
 import styles from "./Edit.module.scss";
 import {connect} from "react-redux";
 import {IReduxState} from "../../store/reducers";
-import {ADD_TEXT, EDIT_TEXT, EDIT_COMMON_STYLES, DELETE_IMAGE, DELETE_TEXT} from "../../store/actions";
+import {
+    ADD_TEXT,
+    EDIT_COMMON_STYLES,
+    DELETE_IMAGE,
+    DELETE_TEXT,
+    SELECT_IMAGE,
+    SELECT_TEXT, EDIT_TEXT_STYLES
+} from "../../store/actions";
 import AddText from "../AddText/AddText";
 import Upload from "../Upload/Upload";
 import {
@@ -11,9 +18,9 @@ import {
     AiOutlineBold,
     AiOutlineItalic, AiOutlineStrikethrough,
     AiOutlineUnderline,
-    FaRegImages, TiDeleteOutline,
+    FaRegImages,
     IoMdOptions,
-    MdTextFields, GiSplitCross, MdFormatColorText, MdFormatColorFill
+    MdTextFields, GiSplitCross, MdFormatColorText, MdFormatColorFill, IoIosColorFilter, FaFont
 } from "react-icons/all";
 
 interface IProps {
@@ -27,21 +34,24 @@ interface IProps {
     stylesCommon: any,
 
     ADD_TEXT: any,
-    EDIT_TEXT: any,
+    EDIT_TEXT_STYLES: any,
     EDIT_COMMON_STYLES: any,
     DELETE_IMAGE: any,
     DELETE_TEXT: any,
-
+    SELECT_IMAGE: any,
+    SELECT_TEXT: any,
 }
 
 const Edit: React.FC<IProps> = (props) => {
-    let [selected, select] = React.useState("");
+    let [selected, select] = React.useState("common");
+    let [isFilter, filterOpen] = React.useState(false);
 
     const onClickIconHandler = (property: string, value_1: string, value_2: string) => {
+        console.log(property, value_1, value_2);
         props.stylesTexts[props.selectedText][property] === value_2 ?
-            props.EDIT_TEXT(props.selectedText, property, value_1)
+            props.EDIT_TEXT_STYLES(props.selectedText, property, value_1)
             :
-            props.EDIT_TEXT(props.selectedText, property, value_2)
+            props.EDIT_TEXT_STYLES(props.selectedText, property, value_2)
     };
 
     const classSelect = (property: string, value: string) => {
@@ -55,25 +65,102 @@ const Edit: React.FC<IProps> = (props) => {
     const optionsSelected = () => {
         if (selected === "common") {
             return (
-               <div className={styles.options}>
-                   <label>
-                       <p>background-color: </p>
-                       <input type="color" defaultValue={props.stylesCommon.backgroundColor}
-                              onChange={(e) => props.EDIT_COMMON_STYLES({backgroundColor: e.target.value})}
-                       />
-                   </label>
-                   <label>
-                       <p>width: </p>
-                       <input type="number"  defaultValue={props.stylesCommon.width}
-                              onChange={(e) => props.EDIT_COMMON_STYLES({width: e.target.value + "px"})}
-                       />
-                   </label>
-                   <label>
-                       <p>height: </p>
-                       <input type="number" defaultValue={props.stylesCommon.height}
-                              onChange={(e) => props.EDIT_COMMON_STYLES({height: e.target.value + "px"})}
-                       />
-                   </label>
+               <div className={styles.options} style={{background: "transparent"}}>
+                   <div className={styles.topList}>
+                       <span style={{display: "flex", alignItems: "center", padding: "0 5px"}}>
+                           <p>width: </p>
+                           <input type="number" defaultValue={props.stylesCommon.width.replace("px", "")}
+                                  onChange={(e) => props.EDIT_COMMON_STYLES({width: e.target.value + "px"})}
+                           />
+                       </span>
+                       <span style={{display: "flex", alignItems: "center", padding: "0 5px"}}>
+                           <p>height: </p>
+                           <input type="number" defaultValue={props.stylesCommon.height.replace("px", "")}
+                                  onChange={(e) => props.EDIT_COMMON_STYLES({height: e.target.value + "px"})}
+                           />
+                       </span>
+                       <span className={styles.icon} style={{width: "auto", paddingLeft: "5px"}}
+                             placeholder="Background-Color"
+                       >
+                           <MdFormatColorFill />
+                           <input type="color" defaultValue={props.stylesCommon.backgroundColor}
+                                  onChange={(e) => props.EDIT_COMMON_STYLES({backgroundColor: e.target.value})}
+                           />
+                       </span>
+                       <div className={styles.iconContainer}>
+                                    <span className={styles.icon}
+                                          onClick={(e) => filterOpen(!isFilter)}
+                                          placeholder="Filters"
+                                    >
+                                        <IoIosColorFilter />
+                                    </span>
+                                        {
+                                            isFilter ?
+                                                <div className={styles.options}>
+                                                    <span>
+                                                        <p>blur: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `blur(${e.target.value}px)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>brightness: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `brightness(${e.target.value}%)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>contrast: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `contrast(${e.target.value}%)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>grayscale: </p>
+                                                        <input type="range" step={.1}
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `grayscale(${e.target.value})`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>saturate: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `saturate(${e.target.value}%)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>sepia: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `sepia(${e.target.value}%)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>hue-rotate: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `hue-rotate(${e.target.value}deg)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>invert: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `invert(${e.target.value}%)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <p>opacity: </p>
+                                                        <input type="range"
+                                                               onChange={(e) => props.EDIT_COMMON_STYLES({filter: `opacity(${e.target.value}%)`})}
+                                                        />
+                                                    </span>
+                                                    <span>
+                                                        <button onClick={(e) => props.EDIT_COMMON_STYLES({filter: `none`})}
+                                                        >NONE</button>
+                                                    </span>
+                                                </div>
+                                                :
+                                                null
+                                        }
+                       </div>
+                   </div>
                </div>
             )
         } else if(selected === "image") {
@@ -85,11 +172,14 @@ const Edit: React.FC<IProps> = (props) => {
                         {
                             props.images.map((image: any, i: number) => {
                                 return (
-                                    <div className={`${styles.wrapper} ${i === props.selectedImage ? styles.selectedItem : ""}`} key={i}>
+                                    <div className={`${styles.wrapper} ${i === props.selectedImage ? styles.selectedItem : ""}`}
+                                         key={i}
+                                         onClick={() => props.SELECT_IMAGE(i)}
+                                    >
                                         <img src={image} alt="#" />
                                         <div className={styles.delete}>
                                             <GiSplitCross style={{width: "20px", height: "100%", cursor: "pointer"}}
-                                                             onClick={() => props.DELETE_IMAGE(i)}
+                                                          onClick={() => props.DELETE_IMAGE(i)}
                                             />
                                         </div>
                                     </div>
@@ -102,7 +192,7 @@ const Edit: React.FC<IProps> = (props) => {
         } else if (selected === "text") {
             return (
                 <div className={styles.options}>
-                    <p>Edit Text: </p>
+                    <p>Add Text: </p>
                     <AddText />
                     <div className={styles.list}>
                         {
@@ -111,6 +201,7 @@ const Edit: React.FC<IProps> = (props) => {
                                     <div className={`${styles.wrapper} ${i === props.selectedText ? styles.selectedItem : ""}`}
                                          style={{width: "calc(100% - 2px)", display: "flex", justifyContent: "center", border: "1px dashed"}}
                                          key={i}
+                                         onClick={() => props.SELECT_TEXT(i)}
                                     >
                                         <span style={props.stylesTexts[props.selectedText]}>{text}</span>
                                         <div className={styles.delete} style={{right: "0"}}>
@@ -126,13 +217,25 @@ const Edit: React.FC<IProps> = (props) => {
                     {
                         props.stylesTexts[props.selectedText] ?
                             <div className={styles.topList}>
-                                <span className={styles.icon} style={{width: "auto"}}>
-                                    <MdFormatColorText />
-                                    <input type="color" onChange={(e) => props.EDIT_TEXT(props.selectedText, "color", e.target.value)}/>
+                                <span className={styles.icon} style={{width: "auto", paddingLeft: "5px"}}>
+                                    <FaFont />
+                                    <select onChange={(e) => props.EDIT_TEXT_STYLES(props.selectedText, "fontFamily", e.target.value)}>
+                                        <option value='sans-serif' style={{fontFamily: "sans-serif"}}>sans-serif</option>
+                                        <option value='serif' style={{fontFamily: "serif"}}>serif</option>
+                                        <option value='monospace' style={{fontFamily: "monospace"}}>monospace</option>
+                                        <option value='cursive' style={{fontFamily: "cursive"}}>cursive</option>
+                                        <option value='fantasy' style={{fontFamily: "fantasy"}}>fantasy</option>
+                                        <option value='system-ui' style={{fontFamily: "system-ui"}}>system-ui</option>
+
+                                    </select>
                                 </span>
-                                <span className={styles.icon} style={{width: "auto"}}>
+                                <span className={styles.icon} style={{width: "auto", paddingLeft: "5px"}}>
+                                    <MdFormatColorText />
+                                    <input type="color" onChange={(e) => props.EDIT_TEXT_STYLES(props.selectedText, "color", e.target.value)}/>
+                                </span>
+                                <span className={styles.icon} style={{width: "auto", paddingLeft: "5px"}}>
                                     <MdFormatColorFill />
-                                    <input type="color" onChange={(e) => props.EDIT_TEXT(props.selectedText, "backgroundColor", e.target.value)}/>
+                                    <input type="color" onChange={(e) => props.EDIT_TEXT_STYLES(props.selectedText, "backgroundColor", e.target.value)}/>
                                 </span>
                                 <div className={styles.iconContainer}>
                                     <span className={styles.icon + classSelect("fontStyle", "italic")}
@@ -251,9 +354,11 @@ export default connect((state: IReduxState) => {
 }, (dispatch) => {
     return {
         ADD_TEXT: (text: string) => dispatch(ADD_TEXT(text)),
-        EDIT_TEXT: (index: number, property: string, value: any) => dispatch(EDIT_TEXT(index, property, value)),
+        EDIT_TEXT_STYLES: (index: number, property: string, value: any) => dispatch(EDIT_TEXT_STYLES(index, property, value)),
         EDIT_COMMON_STYLES: (styles: any) => dispatch(EDIT_COMMON_STYLES(styles)),
         DELETE_IMAGE: (index: number) => dispatch(DELETE_IMAGE(index)),
         DELETE_TEXT: (index: number) => dispatch(DELETE_TEXT(index)),
+        SELECT_IMAGE: (index: number) => dispatch(SELECT_IMAGE(index)),
+        SELECT_TEXT: (index: number) => dispatch(SELECT_TEXT(index))
     }
 })(Edit)

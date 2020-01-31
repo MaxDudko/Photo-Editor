@@ -12,8 +12,8 @@ export interface IStylesState {
 export const initialState = {
     stylesCommon: {
         backgroundColor: "#ffffff",
-        width: "calc(100% - 340px)",
-        height: "70vh"
+        width: "1200px",
+        height: "600px",
     },
     files: [],
     images: [],
@@ -77,7 +77,7 @@ export const styles = (state:IStylesState = initialState, action: any) => {
                 ...state,
                 selectedText: action.payload.index
             };
-        case "EDIT_TEXT":
+        case "EDIT_TEXT_STYLES":
             return {
                 ...state,
                 stylesTexts: state.stylesTexts.map((text: any, i: number) => i === action.payload.index ?

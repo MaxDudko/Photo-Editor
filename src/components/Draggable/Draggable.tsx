@@ -111,54 +111,43 @@ const Draggable: React.FC<IProps> = (props) => {
     return(
         <div className={styles.draggable}
              onClick={() => props.isImage ? props.SELECT_IMAGE(props.index) : props.SELECT_TEXT(props.index)}
-             // style={{...style, position: "absolute"}}
+             style={{left: style.left, top: style.top, position: "relative"}}
         >
-            {/*<div style={*/}
-            {/*    {*/}
-            {/*        ...style,*/}
-            {/*        transform: `rotate(${style.rotateAngle}deg)`,*/}
-            {/*        position: "absolute",*/}
-            {/*        display: "flex",*/}
-            {/*        justifyContent: "center",*/}
-            {/*        alignItems: "center"*/}
-            {/*    }*/}
-            {/*}>*/}
-                {
-                    props.isImage ?
-                        <img src={props.content} alt="#"
-                             style={
-                                 {
-                                     width: style.width,
-                                     height: style.height,
-                                     position: "absolute",
-                                     left: style.left,
-                                     top: style.top,
-                                     transform: `rotate(${style.rotateAngle}deg)`
-                                 }
+            {
+                props.isImage ?
+                    <img src={props.content} alt="#"
+                         style={
+                             {
+                                 width: style.width,
+                                 height: style.height,
+                                 position: "absolute",
+                                 left: style.left,
+                                 top: style.top,
+                                 transform: `rotate(${style.rotateAngle}deg)`
                              }
-                        />
-                        :
-                        <div style={
-                            {
-                                width: style.width,
-                                height: style.height,
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                ...props.stylesTexts[props.index],
-                                position: "relative",
-                                left: style.left,
-                                top: style.top,
-                                transform: `rotate(${style.rotateAngle}deg)`,
-                                fontSize: style.width/10
+                         }
+                    />
+                    :
+                    <div style={
+                        {
+                            width: style.width,
+                            height: style.height,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            ...props.stylesTexts[props.index],
+                            position: "absolute",
+                            left: style.left,
+                            top: style.top,
+                            transform: `rotate(${style.rotateAngle}deg)`,
+                            fontSize: style.width/10
                             //    (style.width/500*100 + style.height/500*100)/2
-                            }
                         }
-                        >
-                            {props.content}
-                        </div>
-                }
-            {/*</div>*/}
+                    }
+                    >
+                        {props.content}
+                    </div>
+            }
             {
                 props.isImage ?
                     props.selectedImage === props.index ?

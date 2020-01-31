@@ -16,8 +16,8 @@ const App: React.FC = () => {
               <Download />
           </div>
           <div className={styles.wrapper}>
-              <NewImage />
               <Edit />
+              <NewImage />
           </div>
       </div>
   );
