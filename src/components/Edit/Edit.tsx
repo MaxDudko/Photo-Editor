@@ -99,55 +99,55 @@ const Edit: React.FC<IProps> = (props) => {
                                                 <div className={styles.options}>
                                                     <span>
                                                         <p>blur: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `blur(${e.target.value}px)`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>brightness: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `brightness(${e.target.value}%)`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>contrast: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `contrast(${e.target.value}%)`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>grayscale: </p>
-                                                        <input type="range" step={.1}
+                                                        <input type="range" step={.1} defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `grayscale(${e.target.value})`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>saturate: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `saturate(${e.target.value}%)`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>sepia: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `sepia(${e.target.value}%)`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>hue-rotate: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `hue-rotate(${e.target.value}deg)`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>invert: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `invert(${e.target.value}%)`})}
                                                         />
                                                     </span>
                                                     <span>
                                                         <p>opacity: </p>
-                                                        <input type="range"
+                                                        <input type="range" defaultValue={0}
                                                                onChange={(e) => props.EDIT_COMMON_STYLES({filter: `opacity(${e.target.value}%)`})}
                                                         />
                                                     </span>
