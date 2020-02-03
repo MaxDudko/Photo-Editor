@@ -2,11 +2,14 @@ export interface IStylesState {
     stylesCommon: any,
     files: any,
     images: string[],
+    shapes: any,
     selectedImage: number,
     stylesImages: any,
     texts: string[],
     selectedText: number,
     stylesTexts: any,
+    selectedShape: number,
+    stylesShapes: any,
 }
 
 export const initialState = {
@@ -17,11 +20,14 @@ export const initialState = {
     },
     files: [],
     images: [],
+    shapes: [],
     selectedImage: 0,
     stylesImages: [],
     texts: [],
     selectedText: 0,
     stylesTexts: [],
+    selectedShape: 0,
+    stylesShapes: [],
 };
 
 export const styles = (state:IStylesState = initialState, action: any) => {
@@ -93,6 +99,46 @@ export const styles = (state:IStylesState = initialState, action: any) => {
             return {
                 ...state,
                 texts: state.texts.filter((e, i) => {
+                    return i !== action.payload.index
+                })
+            };
+        case 'ADD_SHAPE':
+            return {
+                ...state,
+                shapes: [
+                    ...state.shapes,
+                    action.payload.shape
+                ],
+                stylesShapes: [
+                    ...state.stylesShapes,
+                    {
+                        stroke: "red",
+                        fill: "transparent",
+                        strokeWidth: "5"
+                    }
+                ],
+            };
+        case 'SELECT_SHAPE':
+            return {
+                ...state,
+                selectedShape: action.payload.index
+            };
+        case 'EDIT_SHAPE_STYLES':
+            return {
+                ...state,
+                stylesShapes: state.stylesShapes.map((shape: any, i: number) => i === action.payload.index ?
+                    {
+                        ...shape,
+                        [action.payload.property]: action.payload.value
+                    }
+                    :
+                    shape
+                )
+            };
+        case 'DELETE_SHAPE':
+            return {
+                ...state,
+                shapes: state.shapes.filter((e:any, i: number) => {
                     return i !== action.payload.index
                 })
             };

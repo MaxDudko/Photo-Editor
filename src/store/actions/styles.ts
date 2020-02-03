@@ -72,3 +72,41 @@ export const EDIT_TEXT_STYLES = (index: number, property: string, value: any) =>
         }
     }
 };
+
+export const ADD_SHAPE = (shape: any) => {
+    return {
+        type: "ADD_SHAPE",
+        payload: {
+            shape: shape,
+        }
+    }
+};
+
+export const SELECT_SHAPE = (index: number) => {
+    return {
+        type: "SELECT_SHAPE",
+        payload: {
+            index: index
+        }
+    }
+};
+
+export const EDIT_SHAPE_STYLES = (index: number, property: string, value: any) => {
+    return {
+        type: "EDIT_SHAPE_STYLES",
+        payload: {
+            index: index,
+            property: property,
+            value: value,
+        }
+    }
+};
+
+export const DELETE_SHAPE = (index: number) => {
+    return {
+        type: "DELETE_SHAPE",
+        payload: {
+            index: index
+        }
+    }
+};

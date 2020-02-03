@@ -4,19 +4,22 @@ import ResizableRect from 'react-resizable-rotatable-draggable';
 import {TiDeleteOutline} from 'react-icons/ti'
 import {connect} from "react-redux";
 import {IReduxState} from "../../store/reducers";
-import {SELECT_TEXT, SELECT_IMAGE, DELETE_IMAGE, DELETE_TEXT} from "../../store/actions";
+import {SELECT_TEXT, SELECT_IMAGE, DELETE_IMAGE, DELETE_TEXT, SELECT_SHAPE} from "../../store/actions";
+import {MdStarBorder} from "react-icons/all";
 
 
 interface IProps {
     content: any,
     index: number,
-    isImage: boolean,
+    type: string,
 
     selectedText: number,
     selectedImage: number,
+    selectedShape: number,
 
     stylesTexts: any,
     stylesImages: any,
+    stylesShapes: any,
 
     stylesCommon: any,
 
@@ -24,6 +27,7 @@ interface IProps {
     DELETE_TEXT: any,
     SELECT_TEXT: any,
     SELECT_IMAGE: any,
+    SELECT_SHAPE: any,
 }
 
 const Draggable: React.FC<IProps> = (props) => {
@@ -82,6 +86,92 @@ const Draggable: React.FC<IProps> = (props) => {
         }
     };
 
+    const renderContent: any = {
+        image: <img src={props.content} alt="#"
+                    style={
+                        {
+                            width: style.width,
+                            height: style.height,
+                            position: "absolute",
+                            left: style.left,
+                            top: style.top,
+                            transform: `rotate(${style.rotateAngle}deg)`
+                        }
+                    }
+        />,
+        text: <div style={
+            {
+                width: style.width,
+                height: style.height,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                ...props.stylesTexts[props.index],
+                position: "absolute",
+                left: style.left,
+                top: style.top,
+                transform: `rotate(${style.rotateAngle}deg)`,
+                fontSize: style.width/10
+                //    (style.width/500*100 + style.height/500*100)/2
+            }
+        }>
+            {props.content}
+        </div>,
+        shape: <svg style={
+            {
+                width: style.width,
+                height: style.height,
+                position: "absolute",
+                left: style.left,
+                top: style.top,
+                transform: `rotate(${style.rotateAngle}deg)`
+            }
+        }
+                    xmlns="http://www.w3.org/2000/svg"
+            // onClick={}
+        >
+            {
+                // this.shapesTypes[props.content]
+                (
+                    props.content === "rect"
+                    &&
+                    <rect width="100%"
+                          height="100%"
+                          style={{...props.stylesShapes[props.selectedShape], padding: props.stylesShapes[props.selectedShape].strokeWidth}}
+                    />
+                    )
+                ||
+                (
+                    props.content === "ellipse"
+                    &&
+                    <ellipse cx="50%" cy="50%"
+                             rx={style.width/2 - props.stylesShapes[props.selectedShape].strokeWidth}
+                             ry={style.height/2 - props.stylesShapes[props.selectedShape].strokeWidth}
+                             style={{...props.stylesShapes[props.selectedShape]}}
+                    />
+                    )
+                ||
+                (
+                    props.content === "line"
+                    &&
+                    <line x1={props.stylesShapes[props.selectedShape].strokeWidth}
+                          x2={style.width - props.stylesShapes[props.selectedShape].strokeWidth}
+                          y1={style.height - props.stylesShapes[props.selectedShape].strokeWidth}
+                          y2={style.height - props.stylesShapes[props.selectedShape].strokeWidth}
+                          style={{...props.stylesShapes[props.selectedShape]}}
+                    />
+                )
+
+            }
+        </svg>,
+
+        shapesTypes: {
+            rect: <rect width="100%" height="100%"
+                        style={{...props.stylesShapes[props.selectedShape]}}
+            />,
+        }
+    };
+
     const {width, top, left, height, rotateAngle} = style;
 
     const rect = (
@@ -104,61 +194,47 @@ const Draggable: React.FC<IProps> = (props) => {
             // onResizeEnd={this.handleUp}
             // onDragStart={this.handleDragStart}
             onDrag={handleDrag}
-            onDragEnd={handleDragEnd}
+            // onDragEnd={handleDragEnd}
         />
     );
+    const handleSelect = (type: string) => {
+        if(type === "image") {
+            return props.SELECT_IMAGE(props.index)
+        } else if(type === "text") {
+            return props.SELECT_TEXT(props.index)
+        } else if(type === "shape") {
+            return props.SELECT_SHAPE(props.index)
+        } else {
+            return null;
+        }
+    };
     
     return(
         <div className={styles.draggable}
-             onClick={() => props.isImage ? props.SELECT_IMAGE(props.index) : props.SELECT_TEXT(props.index)}
+             onClick={() => handleSelect(props.type)}
+             // onKeyPress={(e) => e.key == "Delete" ? alert(1111) : null}
              style={{left: style.left, top: style.top, position: "relative"}}
         >
             {
-                props.isImage ?
-                    <img src={props.content} alt="#"
-                         style={
-                             {
-                                 width: style.width,
-                                 height: style.height,
-                                 position: "absolute",
-                                 left: style.left,
-                                 top: style.top,
-                                 transform: `rotate(${style.rotateAngle}deg)`
-                             }
-                         }
-                    />
-                    :
-                    <div style={
-                        {
-                            width: style.width,
-                            height: style.height,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            ...props.stylesTexts[props.index],
-                            position: "absolute",
-                            left: style.left,
-                            top: style.top,
-                            transform: `rotate(${style.rotateAngle}deg)`,
-                            fontSize: style.width/10
-                            //    (style.width/500*100 + style.height/500*100)/2
-                        }
-                    }
-                    >
-                        {props.content}
-                    </div>
+               renderContent[props.type]
             }
             {
-                props.isImage ?
-                    props.selectedImage === props.index ?
-                        rect
-                        :
-                        null
+                props.type === "image" && props.selectedImage === props.index ?
+                    rect
                     :
-                    props.selectedText === props.index ?
+                    null
+            }
+            {
+                props.type === "text" && props.selectedText === props.index ?
                         rect
                         :
                         null
+            }
+            {
+                props.type === "shape" && props.selectedShape === props.index ?
+                    rect
+                    :
+                    null
             }
         </div>
     )
@@ -168,9 +244,11 @@ export default connect((state: IReduxState) => {
     return {
         selectedText: state.styles.selectedText,
         selectedImage: state.styles.selectedImage,
+        selectedShape: state.styles.selectedShape,
 
         stylesTexts: state.styles.stylesTexts,
         stylesImages: state.styles.stylesImages,
+        stylesShapes: state.styles.stylesShapes,
 
         stylesCommon: state.styles.stylesCommon,
     };
@@ -180,5 +258,6 @@ export default connect((state: IReduxState) => {
         DELETE_TEXT: (index: number) => dispatch(DELETE_TEXT(index)),
         SELECT_IMAGE: (index: number) => dispatch(SELECT_IMAGE(index)),
         SELECT_TEXT: (index: number) => dispatch(SELECT_TEXT(index)),
+        SELECT_SHAPE: (index: number) => dispatch(SELECT_SHAPE(index)),
     }
 })(Draggable)

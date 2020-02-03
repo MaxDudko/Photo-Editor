@@ -9,6 +9,7 @@ import {SELECT_TEXT} from "../../store/actions";
 interface IProps {
     images: string[],
     texts: string[],
+    shapes: string[],
     stylesCommon: any,
 
 }
@@ -22,7 +23,7 @@ const NewImage: React.FC<IProps> = (props) => {
                 props.images.map((e: any, i: number) => (
                     <Draggable key={i}
                                index={i}
-                               isImage={true}
+                               type="image"
                                content={e}
                     />
                 ))
@@ -31,7 +32,16 @@ const NewImage: React.FC<IProps> = (props) => {
                 props.texts.map((e: any, i: number) => (
                     <Draggable key={i}
                                index={i}
-                               isImage={false}
+                               type="text"
+                               content={e}
+                    />
+                ))
+            }
+            {
+                props.shapes.map((e: any, i: number) => (
+                    <Draggable key={i}
+                               index={i}
+                               type="shape"
                                content={e}
                     />
                 ))
@@ -44,6 +54,7 @@ export default connect((state: IReduxState) => {
     return {
         images: state.styles.images,
         texts: state.styles.texts,
+        shapes: state.styles.shapes,
         stylesCommon: state.styles.stylesCommon,
     };
 }, (dispatch) => {
