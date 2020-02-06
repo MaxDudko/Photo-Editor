@@ -5,6 +5,7 @@ import Download from "./Download/Download";
 import NewImage from "./NewImage/NewImage";
 import Edit from "./Edit/Edit";
 import {FaReact} from "react-icons/all";
+import Factory from "./Fabric/Fabric";
 
 const App: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const App: React.FC = () => {
           </div>
           <div className={styles.wrapper}>
               <Edit />
-              <NewImage />
+              <Factory />
           </div>
       </div>
   );
