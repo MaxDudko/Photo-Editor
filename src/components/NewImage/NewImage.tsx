@@ -19,7 +19,7 @@ const NewImage: React.FC<IProps> = (props) => {
 
 
     return(
-        <div className={styles.imageBox} id="NewImage" style={{...props.stylesCommon}}>
+        <div className={styles.imageBox} style={{...props.stylesCommon}}>
             <Fabric />
             {/*{*/}
             {/*    props.images.map((e: any, i: number) => (*/}
